@@ -15,21 +15,27 @@ window.onload = function () {
         for (var i = 0; i < headerLisNodes.length; i++) {
             headerLisNodes[i].index = i;
             headerLisNodes[i].onclick = function () {
-                arrow.style.left = this.getBoundingClientRect().left + this.offsetWidth/2
-                    - arrow.offsetWidth/2 + 'px';
-                for (var j = 0; j < headerDownsNodes.length; j++) {
-                    headerDownsNodes[j].style.width = '0'
-                }
-                headerDownsNodes[this.index].style.width = '100%'
+                num = this.index;
+                move(this.index);
             }
 
         }
     }
 
+    var num = 0;
+    function move(indexNode) {
+        arrow.style.left = headerLisNodes[indexNode].getBoundingClientRect().left + headerLisNodes[indexNode].offsetWidth/2
+            - arrow.offsetWidth/2 + 'px';
+        for (var j = 0; j < headerDownsNodes.length; j++) {
+            headerDownsNodes[j].style.width = '';
+        }
+        headerDownsNodes[indexNode].style.width = '100%';
+        contentUlNode.style.top = -content.offsetHeight*indexNode + 'px';
+    }
     //content  js
 
-    var num = 0;
-    wheel();
+    document.onmousewheel = wheel;
+    document.addEventListener('DOMMouseScroll ',wheel);
     function wheel(event) {
         event = event || window.event;
 
@@ -52,12 +58,18 @@ window.onload = function () {
 
         switch (flag) {
             case 'up' :
-                num--;
-                contentUlNode.style.top = -content.offsetHeight*num + 'px';
+                if(num>0){
+                    num--;
+                    move(num)
+                }
+
                 break;
             case 'down' :
-                num++;
-                contentUlNode.style.top = -content.offsetHeight*num + 'px';
+                if(num<4){
+                    num++;
+                    move(num)
+                }
+
                 break;
         }
 

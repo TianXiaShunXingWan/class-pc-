@@ -1,4 +1,4 @@
-html,body{height: 100%;/*overflow: hidden;*/}
+html,body{height: 100%;overflow: hidden;}
 html,body,h1,h2,h3,h4,h5,h6,p,ul,li{margin: 0px;padding: 0px;font: 14px "微软雅黑";}
 a{text-decoration: none;display: block;}
 li{list-style: none;}
@@ -48,6 +48,7 @@ img{display: block;}
 }
 .nav li:hover .down{
     width: 100%;
+    /*transition: width 1s;*/
 }
 .arrow{
     position: absolute;
@@ -62,7 +63,7 @@ img{display: block;}
     left: 0;
     bottom: 0;
     right: 0;
-
+    overflow: hidden;
 }
 .content-mian{
     position: absolute;
@@ -71,6 +72,7 @@ img{display: block;}
     height: 500%;
     width: 100%;
     background: pink;
+    transition: top 1s;
     /*background: red;*/
 }
 .content-mian>li{
