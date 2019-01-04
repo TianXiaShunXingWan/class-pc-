@@ -81,6 +81,10 @@ window.onload = function () {
         event.preventDefault && event.preventDefault();
         return false;
     }
-
+    window.onresize = function () {
+        arrow.style.left = headerLisNodes[num].getBoundingClientRect().left + headerLisNodes[num].offsetWidth
+            - arrow.offsetWidth + 'px';
+        contentUlNode.style.top = -content.offsetHeight*num + 'px';
+    }
 
 }
