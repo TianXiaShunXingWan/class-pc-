@@ -22,6 +22,7 @@ window.onload = function () {
         }
     }
 
+    var timer = 0;
     var num = 0;
     function move(indexNode) {
         arrow.style.left = headerLisNodes[indexNode].getBoundingClientRect().left + headerLisNodes[indexNode].offsetWidth/2
@@ -33,46 +34,49 @@ window.onload = function () {
         contentUlNode.style.top = -content.offsetHeight*indexNode + 'px';
     }
     //content  js
-
     document.onmousewheel = wheel;
     document.addEventListener('DOMMouseScroll ',wheel);
     function wheel(event) {
         event = event || window.event;
-
-        var flag = '';
-        if (event.wheelDelta) {
-            //ie/chrome
-            if (event.wheelDelta > 0) {
-                flag = 'up';
-            } else {
-                flag = 'down'
-            }
-        } else if (event.detail) {
-            //firefox
-            if (event.detail < 0) {
-                flag = 'up';
-            } else {
-                flag = 'down'
-            }
-        }
-
-        switch (flag) {
-            case 'up' :
-                if(num>0){
-                    num--;
-                    move(num)
+        clearTimeout(timer)
+        timer = setTimeout(function () {
+            var flag = '';
+            if (event.wheelDelta) {
+                //ie/chrome
+                if (event.wheelDelta > 0) {
+                    flag = 'up';
+                } else {
+                    flag = 'down'
                 }
-
-                break;
-            case 'down' :
-                if(num<4){
-                    num++;
-                    move(num)
+            } else if (event.detail) {
+                //firefox
+                if (event.detail < 0) {
+                    flag = 'up';
+                } else {
+                    flag = 'down'
                 }
+            }
 
-                break;
-        }
+            switch (flag) {
+                case 'up' :
+                    if(num>0){
+                        num--;
+                        // contentUlNode.style.top = -content.offsetHeight*num + 'px';
+                        move(num);
+                    }
 
+                    break;
+                case 'down' :
+                    if(num<4){
+                        num++;
+                        // contentUlNode.style.top = -content.offsetHeight*num + 'px';
+                        move(num)
+                    }
+
+                    break;
+            }
+
+        },200)
         //禁止默认行为
         event.preventDefault && event.preventDefault();
         return false;
