@@ -5,7 +5,15 @@ window.addEventListener('DOMContentLoaded',function () {
     var headerDownsNodes = document.querySelectorAll('.nav li .down');
     var contentUlNode = document.querySelector('.content-mian');
     var content = document.querySelector('.content');
-
+    var sectionKey = document.querySelectorAll('.section-key li');
+    var dots = document.querySelectorAll('.dots li');
+    var section = document.querySelector('.section');
+    var lastIndex = 0;
+    var nowIndex = 0;
+    var lastTime = 0;
+    var nowTime = 0;
+    var timer = 0;
+    var num = 0;
     //头部js
     headerH();
     function headerH() {
@@ -22,8 +30,7 @@ window.addEventListener('DOMContentLoaded',function () {
         }
     }
 
-    var timer = 0;
-    var num = 0;
+
     function move(indexNode) {
         arrow.style.left = headerLisNodes[indexNode].getBoundingClientRect().left + headerLisNodes[indexNode].offsetWidth/2
             - arrow.offsetWidth/2 + 'px';
@@ -33,7 +40,7 @@ window.addEventListener('DOMContentLoaded',function () {
         headerDownsNodes[indexNode].style.width = '100%';
         contentUlNode.style.top = -content.offsetHeight*indexNode + 'px';
     }
-    move(2);
+    move(4);
     // content  js
     document.onmousewheel = wheel;
     document.addEventListener('DOMMouseScroll ',wheel);
@@ -88,14 +95,7 @@ window.addEventListener('DOMContentLoaded',function () {
         contentUlNode.style.top = -content.offsetHeight*num + 'px';
     }
 
-    var sectionKey = document.querySelectorAll('.section-key li');
-    var dots = document.querySelectorAll('.dots li');
-    var section = document.querySelector('.section');
-    var lastIndex = 0;
-    var nowIndex = 0;
-    var lastTime = 0;
-    var nowTime = 0;
-    var timer = 0;
+
     keyframes();
     function keyframes() {
         for (var i = 0; i < dots.length; i++) {
@@ -143,6 +143,47 @@ window.addEventListener('DOMContentLoaded',function () {
         },2500);
     }
 
-    
+    /*第五屏*/
+    var canvas = null;
+    lastScreen();
+    function lastScreen() {
+        var teamLists = document.querySelector('.team-lists');
+        var teamLiLists = document.querySelectorAll('.team-lists li');
+
+      for (var i = 0; i < teamLiLists.length; i++) {
+        teamLiLists[i].index = i;
+        teamLiLists[i].onmouseenter = function () {
+          for (var j = 0; j < teamLiLists.length; j++) {
+            teamLiLists[j].style.opacity = 0.5;
+          }
+          this.style.opacity = 1;
+
+          this.index;
+          if(!canvas){
+            canvas = document.createElement('canvas');
+            canvas.width = 236;
+            canvas.height = 448;
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = this.index * canvas.width + 'px';
+            canvas.style.background = 'red';
+            teamLists.appendChild(canvas);
+          }else {
+            canvas.style.left = this.index * canvas.width + 'px';
+          }
+        }
+      }
+      teamLists.onmouseleave = function () {
+        for (var j = 0; j < teamLiLists.length; j++) {
+          teamLiLists[j].style.opacity = 1;
+        }
+        canvas.remove();
+        canvas = null;
+      }
+    }
+
+    function maskLayer() {
+
+    }
     
 })
