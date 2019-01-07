@@ -1,5 +1,5 @@
 
-window.onload = function () {
+window.addEventListener('DOMContentLoaded',function () {
     var headerLisNodes = document.querySelectorAll('.nav li');
     var arrow = document.querySelector('.arrow');
     var headerDownsNodes = document.querySelectorAll('.nav li .down');
@@ -33,7 +33,8 @@ window.onload = function () {
         headerDownsNodes[indexNode].style.width = '100%';
         contentUlNode.style.top = -content.offsetHeight*indexNode + 'px';
     }
-    //content  js
+    move(2);
+    // content  js
     document.onmousewheel = wheel;
     document.addEventListener('DOMMouseScroll ',wheel);
     function wheel(event) {
@@ -87,4 +88,61 @@ window.onload = function () {
         contentUlNode.style.top = -content.offsetHeight*num + 'px';
     }
 
-}
+    var sectionKey = document.querySelectorAll('.section-key li');
+    var dots = document.querySelectorAll('.dots li');
+    var section = document.querySelector('.section');
+    var lastIndex = 0;
+    var nowIndex = 0;
+    var lastTime = 0;
+    var nowTime = 0;
+    var timer = 0;
+    keyframes();
+    function keyframes() {
+        for (var i = 0; i < dots.length; i++) {
+            dots[i].index = i;
+           dots[i].onclick = function () {
+               nowTime = new Date();
+               if(nowTime - lastTime < 2000) return;
+               nowIndex = this.index;
+               if(nowIndex === lastIndex) return;
+               if(nowIndex > lastIndex){
+                   sectionKey[nowIndex].className = 'animation right-show';
+                   sectionKey[lastIndex].className = 'animation left-hide';
+               }else{
+                   sectionKey[nowIndex].className = 'animation left-show';
+                   sectionKey[lastIndex].className = 'animation right-hide';
+               }
+               dots[lastIndex].className = '';
+               this.className = 'active';
+               lastIndex = nowIndex;
+               lastTime = nowTime;
+           }
+
+        }
+    }
+    section.onmouseenter = function () {
+        clearInterval(timer);
+    }
+    section.onmouseleave = function () {
+        autoPlay();
+    }
+    autoPlay();
+
+    function autoPlay() {
+        clearInterval(timer);
+
+        timer = setInterval(function () {
+
+            nowIndex++;
+            if (nowIndex === 4) nowIndex = 0;
+            sectionKey[nowIndex].className = 'animation right-show';
+            sectionKey[lastIndex].className = 'animation left-hide';
+            dots[lastIndex].className = '';
+            dots[nowIndex].className = 'active';
+            lastIndex = nowIndex;
+        },2500);
+    }
+
+    
+    
+})
